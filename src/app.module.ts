@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { DoctorsModule } from './doctors/doctors.module';
+import { PatientsModule } from './patients/patients.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { DoctorsModule } from './doctors/doctors.module';
       rootPath: join(__dirname, '..', 'public'),
     }),
     DoctorsModule,
+    PatientsModule,
+    AppointmentsModule,
   ],
   controllers: [],
   providers: [],
