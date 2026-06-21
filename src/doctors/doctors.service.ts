@@ -41,12 +41,6 @@ export class DoctorsService {
       handleDBExceptions(error, this.logger);
     }
   }
-
-
-  findAll() {
-    return `This action returns all doctors`;
-  }
-
   async findOne(id: number) {
     try {
       const doctor = await this.doctorRepository.findOne({ where: { id, isActive: true } });
@@ -58,13 +52,5 @@ export class DoctorsService {
       if (error instanceof HttpException) throw error;
       handleDBExceptions(error, this.logger);
     }
-  }
-
-  update(id: number, updateDoctorDto: UpdateDoctorDto) {
-    return `This action updates a #${id} doctor`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} doctor`;
   }
 }

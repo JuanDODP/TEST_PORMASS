@@ -1,34 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { PatientsService } from './patients.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
-import { UpdatePatientDto } from './dto/update-patient.dto';
 
+@ApiTags('Patients')
 @Controller('patients')
 export class PatientsController {
-  constructor(private readonly patientsService: PatientsService) { }
+    constructor(private readonly patientsService: PatientsService) {}
 
-  @Post()
-  create(@Body() createPatientDto: CreatePatientDto) {
-    return this.patientsService.create(createPatientDto);
-  }
+    @Post()
+    @ApiOperation({ summary: 'Registrar un nuevo paciente en el sistema' })
+    @ApiResponse({ status: 201, description: 'Paciente creado exitosamente.' })
+    @ApiResponse({ status: 400, description: 'El email o número de teléfono ya está registrado.' })
+    create(@Body() createPatientDto: CreatePatientDto) {
+        return this.patientsService.create(createPatientDto);
+    }
 
-  @Get()
-  findAll() {
-    return this.patientsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.patientsService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updatePatientDto: UpdatePatientDto) {
-    return this.patientsService.update(id, updatePatientDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.patientsService.remove(id);
-  }
+    @Get(':id')
+    @ApiOperation({ summary: 'Buscar un paciente por su ID' })
+    @ApiParam({ name: 'id', description: 'ID del paciente a buscar', example: 1 })
+    @ApiResponse({ status: 200, description: 'Paciente encontrado exitosamente.' })
+    @ApiResponse({ status: 404, description: 'No se encontró ningún paciente con ese ID.' })
+    findOne(@Param('id', ParseIntPipe) id: number) {
+        return this.patientsService.findOne(id);
+    }
 }

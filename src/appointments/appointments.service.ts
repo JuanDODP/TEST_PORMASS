@@ -196,7 +196,4 @@ async findAll(doctor_id?: number, start_date?: string, end_date?: string) {
       handleDBExceptions(error, this.logger);
     }
   }
-  remove(id: number) {
-    return `This action removes a #${id} appointment`;
-  }
 }
