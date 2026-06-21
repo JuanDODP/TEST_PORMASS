@@ -1,6 +1,6 @@
 import { BaseEntity } from '../../common/entities/base.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { Appointment } from '../../appointments/entities/appointment.entity';
 @Entity('patients')
 export class Patient extends BaseEntity {
     @Column({ type: 'varchar', length: 50 })

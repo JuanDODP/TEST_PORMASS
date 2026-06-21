@@ -32,8 +32,9 @@ export class PatientsService {
 
       const patient = this.patientRepository.create(createPatientDto);
       await this.patientRepository.save(patient);
+      const { updatedAt, createdAt, deletedAt, isActive, ...rest } = patient
 
-      return { ok: true, patient };
+      return { message: "Paciente creado exitosamente", data: rest };
 
     } catch (error) {
       if (error instanceof HttpException) throw error;
@@ -47,16 +48,16 @@ export class PatientsService {
   }
 
   async findOne(id: number) {
-   try {
-    const patient = await this.patientRepository.findOne({ where: { id, isActive: true } });
+    try {
+      const patient = await this.patientRepository.findOne({ where: { id, isActive: true } });
 
-    if (!patient) throw new NotFoundException(`Patient with id ${id} not found`);
-
-    return { ok: true, patient };
-   } catch (error) {
+      if (!patient) throw new NotFoundException(`Patient with id ${id} not found`);
+      const { updatedAt, createdAt, deletedAt, isActive, ...rest } = patient;
+      return { ok: true, patient };
+    } catch (error) {
       if (error instanceof HttpException) throw error;
       handleDBExceptions(error, this.logger);
-   }
+    }
   }
 
   update(id: number, updatePatientDto: UpdatePatientDto) {

@@ -48,16 +48,33 @@ export class AppointmentsService {
       if (date <= mexicoTime) throw new BadRequestException(`La fecha de la cita no puede ser en el pasado`);
 
 
-      if (overlap) throw new ConflictException('El doctor ya tiene una cita en ese horario.');
-      if (overlapPatient) throw new ConflictException('El paciente ya tiene una cita en ese horario.');
-      
+      if (overlap) throw new ConflictException(`El doctor ${doctor?.name} ya tiene una cita en ese horario.`);
+      if (overlapPatient) throw new ConflictException(`El paciente ${patient?.name} ya tiene una cita en ese horario.`);
+
       // 4. Crear la cita
       const appointment = this.appointmentRepository.create(createAppointmentDto);
       appointment.doctor = doctor;
       appointment.patient = patient;
       await this.appointmentRepository.save(appointment);
-
-      return { ok: true, appointment };
+      const { updatedAt, createdAt, deletedAt, isActive, date: originalDate, doctor: d, patient: p, ...rest } = appointment
+      const dateInMexico = new Date(originalDate).toLocaleString('es-MX', {
+        timeZone: 'America/Mexico_City',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+      const { createdAt: dc, updatedAt: du, deletedAt: dd, isActive: di, ...doctorClean } = appointment.doctor;
+      const { createdAt: pc, updatedAt: pu, deletedAt: pd, isActive: pi, ...patientClean } = appointment.patient;
+      return {
+        message: "Cita creada exitosamente", data: {
+          ...rest,
+          date: dateInMexico, doctor: doctorClean,
+          patient: patientClean,
+        }
+      };
 
     } catch (error) {
       if (error instanceof HttpException) throw error;
@@ -65,8 +82,56 @@ export class AppointmentsService {
     }
   }
 
-  findAll() {
-    return `This action returns all appointments`;
+  async findAll(doctor_id?: number, start_date?: string, end_date?: string) {
+    try {
+      if (start_date && isNaN(Date.parse(start_date))) {
+        throw new BadRequestException('start_date no es una fecha válida');
+      }
+
+      if (end_date && isNaN(Date.parse(end_date))) {
+        throw new BadRequestException('end_date no es una fecha válida');
+      }
+
+      if (start_date && end_date && new Date(start_date) > new Date(end_date)) {
+        throw new BadRequestException('start_date no puede ser mayor que end_date');
+      }
+
+      if (doctor_id) {
+        const { doctor } = await this.doctorsService.findOne(doctor_id);
+        if (!doctor) throw new NotFoundException(`Doctor with id ${doctor_id} not found`);
+      }
+
+      const query = this.appointmentRepository
+        .createQueryBuilder('appointment')
+        .leftJoinAndSelect('appointment.doctor', 'doctor')
+        .leftJoinAndSelect('appointment.patient', 'patient');
+
+      if (doctor_id) {
+        query.andWhere('appointment.id_doctor = :doctor_id', { doctor_id });
+      }
+
+      if (start_date) {
+        const start = new Date(`${start_date}T00:00:00.000Z`);
+        query.andWhere('appointment.date >= :start_date', { start_date: start });
+      }
+
+      if (end_date) {
+        const end = new Date(`${end_date}T23:59:59.999Z`);
+        query.andWhere('appointment.date <= :end_date', { end_date: end });
+      }
+
+      const appointments = await query.getMany();
+
+      if (appointments.length === 0) {
+        throw new NotFoundException('No se encontraron citas con los criterios especificados');
+      }
+
+      return { ok: true, total: appointments.length, appointments };
+
+    } catch (error) {
+      if (error instanceof HttpException) throw error;
+      handleDBExceptions(error, this.logger);
+    }
   }
 
   async findOne(id: number) {

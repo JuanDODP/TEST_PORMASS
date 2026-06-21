@@ -31,8 +31,9 @@ export class DoctorsService {
 
       const doctor = this.doctorRepository.create(createDoctorDto);
       await this.doctorRepository.save(doctor);
-
-      return { ok: true, doctor };
+      const {updatedAt, createdAt, deletedAt, isActive, ...rest} = doctor
+      //TODO Retornar solo variables.
+      return { message: "Doctor creado exitosamente", data: rest };
 
     } catch (error) {
       if (error instanceof HttpException) throw error;

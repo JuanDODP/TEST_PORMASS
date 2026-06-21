@@ -1,4 +1,3 @@
-// src/common/helpers/db-exception.handler.ts
 import { BadRequestException, InternalServerErrorException, Logger } from '@nestjs/common';
 
 export function handleDBExceptions(error: any, logger: Logger, message?: 'El email o número de teléfono ya está registrado en el sistema.'): never {
