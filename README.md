@@ -23,7 +23,7 @@
 ```bash
 git clone <url-del-repositorio>
 
-cd prueba_tecnica
+cd TEST_PORMASS
 ```
 
 ---
@@ -41,7 +41,7 @@ npm install
 Copia el archivo de ejemplo y renómbralo:
 
 ```bash
-cp .env.template .env
+cp .env.example .env
 ```
 
 Luego abre el archivo `.env` y configura los valores:
@@ -72,7 +72,9 @@ https://www.docker.com/products/docker-desktop
 Una vez iniciado Docker, ejecuta:
 
 ```bash
-docker-compose up -d
+ docker compose up -d 
+ o
+docker-compose up -d 
 ```
 
 Verificar contenedor:
@@ -296,5 +298,8 @@ http://localhost:3000/api
 ### 🩺 Promass Medical API
 
 NestJS • TypeORM • MySQL • Swagger
+<br>
+
+**Autor:** Juan Diego Domínguez Castaño
 
 </div>
