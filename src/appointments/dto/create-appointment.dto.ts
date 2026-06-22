@@ -18,10 +18,6 @@ export class CreateAppointmentDto {
         enum: AppointmentStatus,
         description: 'Estado de la cita. Por defecto es scheduled. No es necesario enviarlo al crear una cita.',
     })
-    @IsEnum(AppointmentStatus)
-    @IsOptional()
-    status?: AppointmentStatus;
-
     @ApiProperty({
         example: 1,
         description: 'ID del doctor que atenderá la cita. El doctor debe existir en el sistema.',

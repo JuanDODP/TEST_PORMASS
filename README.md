@@ -49,7 +49,7 @@ Luego abre el archivo `.env` y configura los valores:
 ```env
 DB_HOST=localhost
 DB_PORT=3307
-DB_USER=root
+DB_USERNAME=root
 DB_PASSWORD=tu_password
 DB_NAME=promass_med_db
 PORT=3000
@@ -107,7 +107,7 @@ CREATE DATABASE promass_med_db;
 ```env
 DB_HOST=localhost
 DB_PORT=3306
-DB_USER=root
+DB_USERNAME=root
 DB_PASSWORD=tu_password
 DB_NAME=promass_med_db
 PORT=3000
@@ -143,7 +143,7 @@ http://localhost:3000/api
 |-----------|------------|----------|
 | DB_HOST | Host de la base de datos | localhost |
 | DB_PORT | Puerto de la base de datos | 3307 |
-| DB_USER | Usuario de MySQL | root |
+| DB_USERNAME | Usuario de MySQL | root |
 | DB_PASSWORD | Contraseña de MySQL | mi_password |
 | DB_NAME | Nombre de la base de datos | promass_med_db |
 | PORT | Puerto de la API | 3000 |
