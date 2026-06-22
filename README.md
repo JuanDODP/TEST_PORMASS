@@ -1,387 +1,300 @@
-Sistema de Agendamiento de Citas Médicas
-API REST desarrollada con NestJS y MySQL para gestionar citas médicas entre doctores y pacientes.
+# 🩺 Sistema de Agendamiento de Citas Médicas
 
+> API REST desarrollada con **NestJS** y **MySQL** para gestionar citas médicas entre doctores y pacientes.
 
-Requisitos mínimos
-Herramienta
-Versión mínima
-Node.js
-18.x
-npm
-9.x
-NestJS CLI
-11.x
-MySQL
-8.x
-Docker Desktop (opcional)
-20.x
+---
 
+# 📋 Requisitos Mínimos
 
+| Herramienta | Versión mínima |
+|------------|---------------|
+| Node.js | 18.x |
+| npm | 9.x |
+| NestJS CLI | 11.x |
+| MySQL | 8.x |
+| Docker Desktop (Opcional) | 20.x |
 
-Instalación
-1. Clonar el repositorio
+---
+
+# 🚀 Instalación
+
+## 1️⃣ Clonar el repositorio
+
+```bash
 git clone <url-del-repositorio>
 
 cd prueba_tecnica
-2. Instalar dependencias
+```
+
+---
+
+## 2️⃣ Instalar dependencias
+
+```bash
 npm install
-3. Configurar variables de entorno
+```
+
+---
+
+## 3️⃣ Configurar variables de entorno
+
 Copia el archivo de ejemplo y renómbralo:
 
+```bash
 cp .env.template .env
+```
 
-Luego abre el archivo .env y llena los valores:
+Luego abre el archivo `.env` y configura los valores:
 
+```env
 DB_HOST=localhost
-
 DB_PORT=3307
-
 DB_USER=root
-
 DB_PASSWORD=tu_password
-
 DB_NAME=promass_med_db
-
 PORT=3000
+```
 
+---
 
-4. Levantar la base de datos
-Tienes dos caminos aquí, elige el que más te acomode.
+# 🗄️ 4. Levantar la Base de Datos
 
+Existen dos alternativas:
 
-Opción A — Con Docker Desktop (la más rápida)
-Esta opción es la más sencilla porque no necesitas instalar MySQL en tu computadora. Docker se encarga de todo.
+## 🐳 Opción A — Docker Desktop (Recomendada)
 
-Si aún no tienes Docker Desktop, descárgalo desde su página oficial: https://www.docker.com/products/docker-desktop, instálalo como cualquier programa y ábrelo antes de continuar.
+Esta opción es la más rápida porque no necesitas instalar MySQL manualmente.
 
-Con Docker Desktop corriendo, ejecuta este comando en la raíz del proyecto:
+Descarga Docker Desktop:
 
+https://www.docker.com/products/docker-desktop
+
+Una vez iniciado Docker, ejecuta:
+
+```bash
 docker-compose up -d
+```
 
-Eso es todo. Docker va a descargar la imagen de MySQL y levantar la base de datos automáticamente en el puerto 3307. No tienes que crear nada manualmente.
+Verificar contenedor:
 
-Para confirmar que el contenedor está corriendo:
-
+```bash
 docker ps
+```
 
+---
 
-Opción B — Sin Docker (MySQL instalado en tu máquina)
-Si no quieres usar Docker, la alternativa es instalar MySQL directamente en tu sistema operativo. A NestJS y a TypeORM les da exactamente igual dónde esté alojada la base de datos, siempre y cuando las credenciales para conectarse sean correctas.
+## 💾 Opción B — MySQL Local
 
-Paso 1 — Instalar MySQL
+### Paso 1 — Instalar MySQL
 
-Tienes dos formas populares de hacerlo:
+Puedes utilizar:
 
-La forma oficial: Descarga el instalador de MySQL Community Server desde https://dev.mysql.com/downloads/installer/, ejecútalo y sigue los pasos. Durante el proceso te pedirá que definas una contraseña para el usuario root.
-La forma fácil (paquetes todo en uno): Instala XAMPP (Windows/Mac/Linux), WAMP (Windows) o MAMP (Mac). Estos programas instalan MySQL automáticamente y te dan un panel de control con botones de Start/Stop para encender la base de datos con un clic.
+- MySQL Community Server
+- XAMPP
+- WAMP
+- MAMP
 
-Paso 2 — Crear la base de datos
+### Paso 2 — Crear Base de Datos
 
-A diferencia de Docker, aquí debes crear la base de datos tú mismo antes de arrancar el proyecto. Abre tu terminal o tu cliente visual (TablePlus, DBeaver, MySQL Workbench) y ejecuta:
-
+```sql
 CREATE DATABASE promass_med_db;
+```
 
-Paso 3 — Actualizar el archivo .env
+### Paso 3 — Actualizar .env
 
-Como estás usando MySQL nativo, el puerto por defecto es 3306 (no 3307 como en Docker). Tu .env debe quedar así:
-
+```env
 DB_HOST=localhost
-
 DB_PORT=3306
-
 DB_USER=root
-
-DB_PASSWORD=la_contraseña_que_definiste_al_instalar
-
+DB_PASSWORD=tu_password
 DB_NAME=promass_med_db
-
 PORT=3000
+```
 
-Con esto listo, ya puedes pasar directo al siguiente paso. No necesitas ejecutar docker-compose up -d.
+---
 
+# ▶️ 5. Ejecutar el Proyecto
 
-5. Correr el proyecto
-# Modo desarrollo (con hot reload)
+### Desarrollo
 
+```bash
 npm run start:dev
+```
 
-# Modo producción
+### Producción
 
+```bash
 npm run start:prod
+```
 
-La API y la documentación Swagger estarán disponibles en: http://localhost:3000/api
+Swagger disponible en:
 
+```text
+http://localhost:3000/api
+```
 
-Variables de entorno
-Variable
-Descripción
-Ejemplo
-DB_HOST
-Host de la base de datos
-localhost
-DB_PORT
-Puerto de la base de datos
-3307 (Docker) / 3306 (local)
-DB_USER
-Usuario de MySQL
-root
-DB_PASSWORD
-Contraseña de MySQL
-mi_password
-DB_NAME
-Nombre de la base de datos
-promass_med_db
-PORT
-Puerto en el que corre la API
-3000
+---
 
+# ⚙️ Variables de Entorno
 
+| Variable | Descripción | Ejemplo |
+|-----------|------------|----------|
+| DB_HOST | Host de la base de datos | localhost |
+| DB_PORT | Puerto de la base de datos | 3307 |
+| DB_USER | Usuario de MySQL | root |
+| DB_PASSWORD | Contraseña de MySQL | mi_password |
+| DB_NAME | Nombre de la base de datos | promass_med_db |
+| PORT | Puerto de la API | 3000 |
 
-Endpoints disponibles
-Doctors
-Método
-Endpoint
-Descripción
-POST
-/api/doctors
-Registrar un nuevo doctor
-GET
-/api/doctors/:id
-Buscar un doctor por ID
+---
 
-Patients
-Método
-Endpoint
-Descripción
-POST
-/api/patients
-Registrar un nuevo paciente
-GET
-/api/patients/:id
-Buscar un paciente por ID
+# 🔗 Endpoints Disponibles
 
-Appointments
-Método
-Endpoint
-Descripción
-POST
-/api/appointments
-Agendar una nueva cita
-GET
-/api/appointments
-Listar citas con filtros opcionales
-GET
-/api/appointments/:id
-Buscar una cita por ID
-PATCH
-/api/appointments/:id/cancel
-Cancelar una cita
+## 👨‍⚕️ Doctors
 
+| Método | Endpoint | Descripción |
+|----------|----------|------------|
+| POST | `/api/doctors` | Registrar un nuevo doctor |
+| GET | `/api/doctors/:id` | Buscar doctor por ID |
 
+---
 
-Casos de uso
-Doctores — POST /api/doctors
-// Crear doctor exitosamente ✅
+## 🧑‍💼 Patients
 
+| Método | Endpoint | Descripción |
+|----------|----------|------------|
+| POST | `/api/patients` | Registrar un paciente |
+| GET | `/api/patients/:id` | Buscar paciente por ID |
+
+---
+
+## 📅 Appointments
+
+| Método | Endpoint | Descripción |
+|----------|----------|------------|
+| POST | `/api/appointments` | Crear cita |
+| GET | `/api/appointments` | Listar citas |
+| GET | `/api/appointments/:id` | Obtener cita |
+| PATCH | `/api/appointments/:id/cancel` | Cancelar cita |
+
+---
+
+# 🧪 Casos de Uso
+
+## 👨‍⚕️ Crear Doctor
+
+### ✅ Correcto
+
+```json
 {
-
-    "name": "Dr. Juan Pérez",
-
-    "phone_number": "5512345678",
-
-    "email": "doctor@example.com"
-
+  "name": "Dr. Juan Pérez",
+  "phone_number": "5512345678",
+  "email": "doctor@example.com"
 }
+```
 
-// Email duplicado → 400 ❌
+### ❌ Email Duplicado
 
+```json
 {
-
-    "name": "Dr. Otro",
-
-    "phone_number": "5599999999",
-
-    "email": "doctor@example.com"
-
+  "name": "Dr. Otro",
+  "phone_number": "5599999999",
+  "email": "doctor@example.com"
 }
+```
 
-// Teléfono duplicado → 400 ❌
+### ❌ Teléfono Duplicado
 
+```json
 {
-
-    "name": "Dr. Otro",
-
-    "phone_number": "5512345678",
-
-    "email": "otro@example.com"
-
+  "name": "Dr. Otro",
+  "phone_number": "5512345678",
+  "email": "otro@example.com"
 }
+```
 
-// Teléfono con letras → 400 ❌
+### ❌ Teléfono Inválido
 
+```json
 {
-
-    "name": "Dr. Otro",
-
-    "phone_number": "551234abcd",
-
-    "email": "otro@example.com"
-
+  "name": "Dr. Otro",
+  "phone_number": "551234abcd",
+  "email": "otro@example.com"
 }
+```
 
+---
 
-Pacientes — POST /api/patients
-// Crear paciente exitosamente ✅
+# 📅 Crear Cita
 
+### ✅ Cita Válida
+
+```json
 {
-
-    "name": "María García",
-
-    "phone_number": "5587654321",
-
-    "email": "paciente@example.com"
-
+  "date": "2027-01-01T10:00:00",
+  "id_doctor": 1,
+  "id_patient": 1
 }
+```
 
-// Email duplicado → 400 ❌
+### ❌ Fecha en el pasado
 
-// Teléfono duplicado → 400 ❌
-
-// Teléfono con letras → 400 ❌
-
-
-Citas — POST /api/appointments
-// Cita válida (base para las demás pruebas) ✅
-
+```json
 {
-
-    "date": "2027-01-01T10:00:00",
-
-    "id_doctor": 1,
-
-    "id_patient": 1
-
+  "date": "2020-01-01T10:00:00",
+  "id_doctor": 1,
+  "id_patient": 1
 }
+```
 
-Validaciones de fecha:
+### ❌ Hora ya pasada
 
-// Fecha en el pasado → 400 ❌
+```json
+{
+  "date": "2026-06-21T00:00:00",
+  "id_doctor": 1,
+  "id_patient": 1
+}
+```
 
-{ "date": "2020-01-01T10:00:00", "id_doctor": 1, "id_patient": 1 }
+---
 
-// Fecha de hoy pero hora ya pasada → 400 ❌
+# 📌 Reglas de Negocio
 
-{ "date": "2026-06-21T00:00:00", "id_doctor": 1, "id_patient": 1 }
+✅ Cada cita dura exactamente **30 minutos**
 
-Validaciones de traslape (con cita existente a las 10:00):
+✅ Un doctor no puede tener citas traslapadas
 
-// Empieza antes y termina en medio → 409 ❌
+✅ Un paciente no puede tener citas simultáneas
 
-{ "date": "2027-01-01T09:50:00", "id_doctor": 1, "id_patient": 2 }
+✅ Solo se permiten fechas futuras
 
-// Misma hora exacta → 409 ❌
+✅ No se pueden cancelar citas iniciadas o finalizadas
 
-{ "date": "2027-01-01T10:00:00", "id_doctor": 1, "id_patient": 2 }
+✅ Las citas canceladas liberan el horario
 
-// Empieza en medio de la cita → 409 ❌
+✅ Zona horaria utilizada:
 
-{ "date": "2027-01-01T10:15:00", "id_doctor": 1, "id_patient": 2 }
+```text
+America/Mexico_City
+```
 
-// Justo cuando termina la anterior → 201 ✅
+---
 
-{ "date": "2027-01-01T10:30:00", "id_doctor": 1, "id_patient": 2 }
+# 📖 Swagger
 
-// Completamente libre → 201 ✅
+Accede a la documentación interactiva en:
 
-{ "date": "2027-01-01T11:00:00", "id_doctor": 1, "id_patient": 2 }
+```text
+http://localhost:3000/api
+```
 
-Validaciones de paciente:
+---
 
-// El paciente tampoco puede tener dos citas al mismo tiempo → 409 ❌
+<div align="center">
 
-// Si el paciente 1 ya tiene cita a las 10:00, no puede tener otra a las 10:15
+### 🩺 Promass Medical API
 
-{ "date": "2027-01-01T10:15:00", "id_doctor": 2, "id_patient": 1 }
+NestJS • TypeORM • MySQL • Swagger
 
-Doctor o paciente inexistente:
-
-// Doctor no existe → 404 ❌
-
-{ "date": "2027-01-01T10:00:00", "id_doctor": 9999, "id_patient": 1 }
-
-// Paciente no existe → 404 ❌
-
-{ "date": "2027-01-01T10:00:00", "id_doctor": 1, "id_patient": 9999 }
-
-
-Citas — PATCH /api/appointments/:id/cancel
-// Cancelar cita existente → 200 ✅
-
-PATCH /api/appointments/1/cancel
-
-// Cancelar una cita que ya fue cancelada → 400 ❌
-
-PATCH /api/appointments/1/cancel  (segunda vez)
-
-// Cancelar cita en proceso (empezó pero no ha terminado) → 400 ❌
-
-// Ejemplo: son las 10:15 y la cita es a las 10:00 (termina a las 10:30)
-
-// Cancelar cita que ya finalizó → 400 ❌
-
-// Ejemplo: son las 11:00 y la cita era a las 10:00 (terminó a las 10:30)
-
-// Cita no existe → 404 ❌
-
-PATCH /api/appointments/9999/cancel
-
-Una vez cancelada, el horario queda libre:
-
-// Si la cita de las 10:00 fue cancelada, este horario vuelve a estar disponible ✅
-
-{ "date": "2027-01-01T10:00:00", "id_doctor": 1, "id_patient": 2 }
-
-
-Citas — GET /api/appointments
-// Todas las citas → 200 ✅
-
-GET /api/appointments
-
-// Filtrar por doctor → 200 ✅
-
-GET /api/appointments?doctor_id=1
-
-// Filtrar por rango de fechas → 200 ✅
-
-GET /api/appointments?start_date=2027-01-01&end_date=2027-01-31
-
-// Filtro combinado → 200 ✅
-
-GET /api/appointments?doctor_id=1&start_date=2027-01-01&end_date=2027-01-31
-
-// Doctor inexistente → 404 ❌
-
-GET /api/appointments?doctor_id=9999
-
-// Fecha con formato inválido → 400 ❌
-
-GET /api/appointments?start_date=fecha-invalida
-
-// start_date mayor que end_date → 400 ❌
-
-GET /api/appointments?start_date=2027-12-31&end_date=2027-01-01
-
-// Sin resultados con los filtros dados → 404 ❌
-
-GET /api/appointments?start_date=2000-01-01&end_date=2000-01-02
-
-
-Reglas de negocio
-Cada cita tiene una duración fija de 30 minutos
-Un doctor no puede tener dos citas que se traslapen en el tiempo
-Un paciente no puede tener dos citas al mismo tiempo
-Solo se pueden agendar citas en fechas y horarios futuros
-No se puede cancelar una cita que ya está en proceso o que ya finalizó
-Las citas canceladas no bloquean la disponibilidad del doctor ni del paciente
-El horario de la aplicación está basado en America/Mexico_City
-
+</div>
