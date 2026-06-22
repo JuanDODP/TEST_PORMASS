@@ -20,28 +20,27 @@ Docker Desktop (opcional)
 
 Instalación
 1. Clonar el repositorio
-git clone https://github.com/JuanDODP/TEST_PORMASS.git
+git clone <url-del-repositorio>
 
-cd TEST_PORMASS
-
+cd prueba_tecnica
 2. Instalar dependencias
 npm install
 3. Configurar variables de entorno
 Copia el archivo de ejemplo y renómbralo:
 
-cp .env.example .env
+cp .env.template .env
 
 Luego abre el archivo .env y llena los valores:
 
 DB_HOST=localhost
 
-DB_PORT=3307 este por lo regular es 3306
+DB_PORT=3307
 
 DB_USER=root
 
 DB_PASSWORD=tu_password
 
-DB_NAME=nombre_de_tu_base_de_datos
+DB_NAME=promass_med_db
 
 PORT=3000
 
@@ -80,7 +79,7 @@ Paso 2 — Crear la base de datos
 
 A diferencia de Docker, aquí debes crear la base de datos tú mismo antes de arrancar el proyecto. Abre tu terminal o tu cliente visual (TablePlus, DBeaver, MySQL Workbench) y ejecuta:
 
-CREATE DATABASE medical_db;
+CREATE DATABASE promass_med_db;
 
 Paso 3 — Actualizar el archivo .env
 
@@ -94,7 +93,7 @@ DB_USER=root
 
 DB_PASSWORD=la_contraseña_que_definiste_al_instalar
 
-DB_NAME=medical_db
+DB_NAME=promass_med_db
 
 PORT=3000
 
@@ -131,7 +130,7 @@ Contraseña de MySQL
 mi_password
 DB_NAME
 Nombre de la base de datos
-medical_db
+promass_med_db
 PORT
 Puerto en el que corre la API
 3000
